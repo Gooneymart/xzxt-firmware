@@ -1,0 +1,13 @@
+# Rust build artifacts
+/target/
+Cargo.lock
+
+# Generated binary deliverables
+/tests/firmware.bin
+
+# IDE and OS-specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store

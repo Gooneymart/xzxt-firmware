@@ -1,0 +1,16 @@
+[package]
+name = "xzxt-firmware"
+version = "0.1.0"
+edition = "2021"
+authors = ["XZXT Team"]
+
+[dependencies]
+# Keep dependencies minimal for bare-metal. 
+# We can add the official `riscv` crate later if needed for CSR manipulation.
+
+[profile.release]
+opt-level = "s"      # Optimize for size (ideal for bare-metal ROM limits)
+lto = true           # Link Time Optimization for a leaner binary
+codegen-units = 1    # Better optimization across modules
+panic = "abort"      # Bare-metal has no unwinding stack
+strip = "debuginfo"  # Keep symbol table in ELF, strip debug info if needed
