@@ -1,22 +1,29 @@
 //! Custom-0 instruction wrappers for the XZXT extension.
 
-/// Custom-0 Type-R instruction wrapper.
+/// Custom-0 Sub-opcode variant 0
+/// Encodes to: opcode = 0x0B (custom-0), funct3 = 0x0, funct7 = 0x00
 #[inline(always)]
-pub unsafe fn custom_0_op(rs1: u64, rs2: u64) -> u64 {
+pub unsafe fn xzxt_op_v0(rs1: u64, rs2: u64) -> u64 {
     let rd: u64;
-    
-    const OPCODE: u32 = 0x0B; // Standard custom-0 opcode
-    const FUNCT3: u32 = 0x0;  // Update to match cpu_pkg.vl
-    const FUNCT7: u32 = 0x00; // Update to match cpu_pkg.vl
-
     core::arch::asm!(
-        ".insn r {opcode}, {f3}, {f7}, {rd}, {rs1}, {rs2}",
-        opcode = const OPCODE,
-        f3     = const FUNCT3,
-        f7     = const FUNCT7,
-        rd     = out(reg) rd,
-        rs1    = in(reg) rs1,
-        rs2    = in(reg) rs2,
+        ".insn r 0x0B, 0x0, 0x00, {}, {}, {}",
+        out(reg) rd,
+        in(reg) rs1,
+        in(reg) rs2,
+    );
+    rd
+}
+
+/// Custom-0 Sub-opcode variant 1 (alternate funct3 for stress testing)
+/// Encodes to: opcode = 0x0B (custom-0), funct3 = 0x1, funct7 = 0x00
+#[inline(always)]
+pub unsafe fn xzxt_op_v1(rs1: u64, rs2: u64) -> u64 {
+    let rd: u64;
+    core::arch::asm!(
+        ".insn r 0x0B, 0x1, 0x00, {}, {}, {}",
+        out(reg) rd,
+        in(reg) rs1,
+        in(reg) rs2,
     );
     rd
 }
